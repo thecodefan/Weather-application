@@ -44,7 +44,7 @@ async function getWeatherData(city){
     new Date(apiUrl.dt*1000+(apiUrl.timezone*1000)); // plus
 
     if(!response.ok){
-        throw new Error("Could not fetch weather dat");
+        throw new Error("Could not fetch weather data");
     }
     return await response.json();
 
