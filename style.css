@@ -86,3 +86,15 @@ p{
     font-weight:bold;
     color:hsl(0, 0%, 0%,0.75);
 }
+
+#toggleUnitBtn{
+    padding: 10px 20px;
+    font-weight:bold;
+    font-size:1rem;
+    background-color:hsl(244, 62%, 50%);
+    border:none;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
