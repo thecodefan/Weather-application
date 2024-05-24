@@ -51,7 +51,9 @@ async function getWeatherData(city){
 
 function displayWeatherInfo(data){ //data in json like format
 console.log(data);
-const{name: city,sys:{country},
+const{name: city,
+    sys:{country},
+    wind:{speed},
     main:{temp,humidity},
     weather:[{description,id}]}=data; //with object desturcting we make sure data has all of these, we can use them like variables
 
@@ -64,6 +66,7 @@ const humidityDisplay=document.createElement("p");
 const descDisplay=document.createElement("p");
 const weatherEmoji=document.createElement("h1");
 const countryDisplay=document.createElement("h1");
+const windDisplay=document.createElement("h1");
 
 
 cityDisplay.textContent=city;
@@ -72,6 +75,7 @@ humidityDisplay.textContent=`Humidity: ${humidity}`;
 descDisplay.textContent=description;
 weatherEmoji.textContent=getWeatherEmoji(id);
 countryDisplay.textContent=country;
+windDisplay.textContent=`💨 ${speed} km/h`;
  //the city variables we destructured . then append
 cityDisplay.classList.add("cityDisplay");
 tempDisplay.classList.add("tempDisplay");
@@ -79,6 +83,9 @@ humidityDisplay.classList.add("humidityDisplay");
 descDisplay.classList.add("descDisplay");
 weatherEmoji.classList.add("weatherEmoji");
 countryDisplay.classList.add("countryDisplay");
+windDisplay.classList.add("windDisplay");
+
+
 
 
 card.appendChild(cityDisplay);
@@ -87,6 +94,8 @@ card.appendChild(humidityDisplay);
 card.appendChild(descDisplay);
 card.appendChild(weatherEmoji);
 card.appendChild(countryDisplay);
+card.appendChild(windDisplay)
+
 
 
 
