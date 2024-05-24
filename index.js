@@ -1,5 +1,5 @@
 //WEATHER APP
-
+  
 const weatherForm=document.querySelector(".weatherform");
 const cityInput=document.querySelector(".cityInput");
 const card=document.querySelector(".card");
@@ -39,8 +39,10 @@ weatherForm.addEventListener("submit",async event=>{ //use async here ot use awa
 async function getWeatherData(city){
 
     const apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-
+    
     const response=await  fetch(apiUrl);
+    new Date(apiUrl.dt*1000+(apiUrl.timezone*1000)); // plus
+
     if(!response.ok){
         throw new Error("Could not fetch weather dat");
     }
@@ -55,7 +57,7 @@ const{name: city,
     sys:{country},
     wind:{speed},
     main:{temp,humidity},
-    weather:[{description,id}]}=data; //with object desturcting we make sure data has all of these, we can use them like variables
+    weather: [{ description, id }], timezone }=data; //with object desturcting we make sure data has all of these, we can use them like variables
 
 card.textContent="";
 card.style.display="flex";
@@ -67,6 +69,7 @@ const descDisplay=document.createElement("p");
 const weatherEmoji=document.createElement("h1");
 const countryDisplay=document.createElement("h1");
 const windDisplay=document.createElement("h1");
+const timezoneDisplay = document.createElement("p");
 
 
 cityDisplay.textContent=city;
@@ -76,6 +79,7 @@ descDisplay.textContent=description;
 weatherEmoji.textContent=getWeatherEmoji(id);
 countryDisplay.textContent=country;
 windDisplay.textContent=`💨 ${speed} km/h`;
+timezoneDisplay.textContent = `Local Time: ${getLocalTime(timezone)}`;
  //the city variables we destructured . then append
 cityDisplay.classList.add("cityDisplay");
 tempDisplay.classList.add("tempDisplay");
@@ -84,6 +88,7 @@ descDisplay.classList.add("descDisplay");
 weatherEmoji.classList.add("weatherEmoji");
 countryDisplay.classList.add("countryDisplay");
 windDisplay.classList.add("windDisplay");
+timezoneDisplay.classList.add("timezoneDisplay");
 
 
 
@@ -94,7 +99,8 @@ card.appendChild(humidityDisplay);
 card.appendChild(descDisplay);
 card.appendChild(weatherEmoji);
 card.appendChild(countryDisplay);
-card.appendChild(windDisplay)
+card.appendChild(windDisplay);
+card.appendChild(timezoneDisplay);
 
 
 
@@ -142,10 +148,9 @@ card.style.display="flex";
 card.appendChild(errorDisplay);
 }
 
-function getDate(dt, timezone) {
-    const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
-    const utc_milliseconds = utc_seconds * 1000;
-    const local_date = new Date(utc_milliseconds).toUTCString();
-    return local_date;
-    console.log(local_date);
-  }
+function getLocalTime(timezoneOffset) {
+    const utcDate = new Date();
+    const localDate = new Date(utcDate.getTime() + timezoneOffset * 1000);
+    const hours = localDate.getUTCHours().toString().padStart(2, '0');
+    const minutes = localDate.getUTCMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`};
