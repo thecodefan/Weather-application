@@ -16,6 +16,7 @@ weatherForm.addEventListener("submit",async event=>{ //use async here ot use awa
         try{
             const weatherData=await getWeatherData(city);
             displayWeatherInfo(weatherData);
+            
 
 
         }
@@ -50,7 +51,7 @@ async function getWeatherData(city){
 
 function displayWeatherInfo(data){ //data in json like format
 console.log(data);
-const{name: city,
+const{name: city,sys:{country},
     main:{temp,humidity},
     weather:[{description,id}]}=data; //with object desturcting we make sure data has all of these, we can use them like variables
 
@@ -62,18 +63,22 @@ const tempDisplay=document.createElement("p");
 const humidityDisplay=document.createElement("p");
 const descDisplay=document.createElement("p");
 const weatherEmoji=document.createElement("h1");
+const countryDisplay=document.createElement("h1");
+
 
 cityDisplay.textContent=city;
 tempDisplay.textContent=`${(temp -273.15).toFixed(1)}°C`; 
 humidityDisplay.textContent=`Humidity: ${humidity}`; 
 descDisplay.textContent=description;
 weatherEmoji.textContent=getWeatherEmoji(id);
+countryDisplay.textContent=country;
  //the city variables we destructured . then append
 cityDisplay.classList.add("cityDisplay");
 tempDisplay.classList.add("tempDisplay");
 humidityDisplay.classList.add("humidityDisplay");
 descDisplay.classList.add("descDisplay");
 weatherEmoji.classList.add("weatherEmoji");
+countryDisplay.classList.add("countryDisplay");
 
 
 card.appendChild(cityDisplay);
@@ -81,6 +86,8 @@ card.appendChild(tempDisplay);
 card.appendChild(humidityDisplay);
 card.appendChild(descDisplay);
 card.appendChild(weatherEmoji);
+card.appendChild(countryDisplay);
+
 
 
 
